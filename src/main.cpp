@@ -1,6 +1,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <memory>
+
+#include "Render.h"
 
 int main(void)
 {
@@ -31,6 +34,8 @@ int main(void)
         return -1;
     }
 
+    auto pRender = std::make_unique<Render>();
+
     glClearColor(0.1, 0.3, 0, 1);
 
     /* Loop until the user closes the window */
@@ -38,6 +43,7 @@ int main(void)
     {
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
+        pRender->Draw();
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
