@@ -3,6 +3,7 @@
 #include <iostream>
 #include <memory>
 
+#include "Model.h"
 #include "Render.h"
 
 int main(void)
@@ -33,7 +34,8 @@ int main(void)
         std::cout << "Can't load GLAD!" << std::endl;
         return -1;
     }
-
+    
+    auto pModel = std::make_unique<Model>();
     auto pRender = std::make_unique<Render>();
 
     glClearColor(0.1, 0.3, 0, 1);
@@ -41,6 +43,8 @@ int main(void)
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
+        pModel->Update();
+        
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
         pRender->Draw();
