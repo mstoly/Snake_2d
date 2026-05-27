@@ -36,3 +36,5 @@ target_link_libraries(Snake_2d PRIVATE glfw)
 
 add_subdirectory(external/glad)
 target_link_libraries(Snake_2d PRIVATE glad)
+
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/shaders" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
