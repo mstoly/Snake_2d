@@ -1,22 +1,22 @@
 #include <iostream>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "Render.h"
+#include "Renderer.h"
 
-Render::Render()
+Renderer::Renderer()
 {
     initGrid();
     bindGrid();
 
-    gridShaderProgram = std::make_unique<Shader>("shaders/grid.vert", "shaders/grid.frag");
+    gridShaderProgram = std::make_unique<ShaderProgram>("shaders/grid.vert", "shaders/grid.frag");
 }
 
-void Render::Draw()
+void Renderer::Draw()
 {
     drawGrid();
 }
 
-void Render::bindGrid()
+void Renderer::bindGrid()
 {
     GLuint VBO;
 
@@ -44,12 +44,12 @@ void Render::bindGrid()
     glEnableVertexAttribArray(0);
 }
 
-void Render::drawGrid()
+void Renderer::drawGrid()
 {
     gridShaderProgram->Use();
 
     glUniformMatrix4fv(
-        glGetUniformLocation(gridShaderProgram->GetProgramId(), "uProj"),
+        glGetUniformLocation(gridShaderProgram->GetId(), "uProj"),
         1,
         GL_FALSE,
         glm::value_ptr(proj));
@@ -62,7 +62,7 @@ void Render::drawGrid()
         vertices.size() / 2);
 }
 
-void Render::initGrid()
+void Renderer::initGrid()
 {
     for (int x = 0; x <= cols; ++x)
     {

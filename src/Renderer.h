@@ -7,12 +7,12 @@
 #include <memory>
 #include <vector>
 
-#include "Shader.h"
+#include "ShaderProgram.h"
 
-class Render
+class Renderer
 {
 public:
-    Render();
+    Renderer();
     
     void Draw();
 
@@ -37,7 +37,7 @@ private:
     height,
     0.0f);
 
-    std::unique_ptr<Shader> gridShaderProgram;
+    std::unique_ptr<ShaderProgram> gridShaderProgram;
 
     GLuint VAO;
 };

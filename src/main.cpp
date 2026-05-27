@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "Model.h"
-#include "Render.h"
+#include "Renderer.h"
 
 int main(void)
 {
@@ -36,7 +36,7 @@ int main(void)
     }
     
     auto pModel = std::make_unique<Model>();
-    auto pRender = std::make_unique<Render>();
+    auto pRenderer = std::make_unique<Renderer>();
 
     glClearColor(0.1, 0.3, 0, 1);
 
@@ -47,7 +47,7 @@ int main(void)
         
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
-        pRender->Draw();
+        pRenderer->Draw();
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);

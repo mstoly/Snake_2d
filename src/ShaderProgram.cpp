@@ -3,11 +3,11 @@
 #include <fstream>
 #include <iostream>
 
-#include "Shader.h"
+#include "ShaderProgram.h"
 
 namespace fs = std::filesystem;
 
-Shader::Shader(const char *vertexFile, const char *fragmentFile)
+ShaderProgram::ShaderProgram(const char *vertexFile, const char *fragmentFile)
 {
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     compileShader(vertexShader, vertexFile);
@@ -15,24 +15,24 @@ Shader::Shader(const char *vertexFile, const char *fragmentFile)
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     compileShader(fragmentShader, fragmentFile);
 
-    compileProgram(vertexShader, fragmentShader);
+    build(vertexShader, fragmentShader);
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 }
 
-void Shader::Use()
+void ShaderProgram::Use()
 {
     assert(success);
     glUseProgram(programId);
 }
 
-GLuint Shader::GetProgramId()
+GLuint ShaderProgram::GetId()
 {
     return programId;
 }
 
-void Shader::compileShader(GLuint &shader, const char *fileName)
+void ShaderProgram::compileShader(GLuint &shader, const char *fileName)
 {
     fs::path path{fileName};
     if (fs::exists(path))
@@ -57,7 +57,7 @@ void Shader::compileShader(GLuint &shader, const char *fileName)
     }
 }
 
-void Shader::compileProgram(GLuint &vertexShader, GLuint &fragmentShader)
+void ShaderProgram::build(GLuint &vertexShader, GLuint &fragmentShader)
 {
     assert(success);
 

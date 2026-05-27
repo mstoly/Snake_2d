@@ -3,17 +3,17 @@
 
 #include <glad/glad.h>
 
-class Shader
+class ShaderProgram
 {
 public:
-    Shader(const char *vertexFile, const char *fragmentFile);
+    ShaderProgram(const char *vertexFile, const char *fragmentFile);
 
     void Use();
-    GLuint GetProgramId(); 
+    GLuint GetId(); 
 
 private:
     void compileShader(GLuint& shader, const char * fileName);
-    void compileProgram(GLuint &vertexShader, GLuint &fragmentShader);
+    void build(GLuint &vertexShader, GLuint &fragmentShader);
 
 private:
    const int static infoLogSize = 512;  
