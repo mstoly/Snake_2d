@@ -13,6 +13,7 @@ class Renderer
 {
 public:
     Renderer();
+    ~Renderer();
     
     void Draw();
 
@@ -31,15 +32,12 @@ private:
     const float width  = cols * cell;
     const float height = rows * cell;
 
-    glm::mat4 proj = glm::ortho(
-    0.0f,
-    width,
-    height,
-    0.0f);
+    glm::mat4 proj;
 
     std::unique_ptr<ShaderProgram> gridShaderProgram;
 
     GLuint VAO;
+    GLuint VBO;
 };
 
 #endif //RENDER_H

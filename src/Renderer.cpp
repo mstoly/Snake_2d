@@ -5,10 +5,22 @@
 
 Renderer::Renderer()
 {
+    proj = glm::ortho(
+    0.0f,
+    width,
+    height,
+    0.0f);
+
     initGrid();
     bindGrid();
 
     gridShaderProgram = std::make_unique<ShaderProgram>("shaders/grid.vert", "shaders/grid.frag");
+}
+
+Renderer::~Renderer()
+{
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
 }
 
 void Renderer::Draw()
@@ -18,8 +30,6 @@ void Renderer::Draw()
 
 void Renderer::bindGrid()
 {
-    GLuint VBO;
-
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
 
