@@ -20,8 +20,7 @@ private:
 
     GLuint programId;
 
-    int success;
     char infoLog[infoLogSize];
 };
 
-#endif // SHADER_H
+#endif //SHADER_H

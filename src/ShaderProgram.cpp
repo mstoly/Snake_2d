@@ -1,7 +1,6 @@
 #include <assert.h>
 #include <filesystem>
 #include <fstream>
-#include <iostream>
 
 #include "ShaderProgram.h"
 
@@ -23,7 +22,6 @@ ShaderProgram::ShaderProgram(const char *vertexFile, const char *fragmentFile)
 
 void ShaderProgram::Use()
 {
-    assert(success);
     glUseProgram(programId);
 }
 
@@ -43,6 +41,7 @@ void ShaderProgram::compileShader(GLuint &shader, const char *fileName)
         std::ifstream file(path, std::ios::binary);
         if (file.read(buffer.data(), size))
         {
+            int success;
             const char* src = buffer.c_str();
             glShaderSource(shader, 1, &src, nullptr);
             glCompileShader(shader);
@@ -51,18 +50,25 @@ void ShaderProgram::compileShader(GLuint &shader, const char *fileName)
             if (!success)
             {
                 glGetShaderInfoLog(shader, infoLogSize, nullptr, infoLog);
-                std::cout << infoLog << std::endl;
+                throw std::runtime_error(infoLog);
             }
         }
+        else
+        {
+            throw std::runtime_error("Shader file can't be loaded");
+        }
+    }
+    else
+    {
+        throw std::runtime_error("Shader file not found");
     }
 }
 
 void ShaderProgram::build(GLuint &vertexShader, GLuint &fragmentShader)
 {
-    assert(success);
-
+    int success;
+    
     programId = glCreateProgram();
-
     glAttachShader(programId, vertexShader);
     glAttachShader(programId, fragmentShader);
 
@@ -72,6 +78,6 @@ void ShaderProgram::build(GLuint &vertexShader, GLuint &fragmentShader)
     if (!success)
     {
         glGetProgramInfoLog(programId, infoLogSize, nullptr, infoLog);
-        std::cout << infoLog << std::endl;
+        throw std::runtime_error(infoLog);
     }
 }
