@@ -1,4 +1,5 @@
 #include <iostream>
+#include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Renderer.h"
@@ -12,15 +13,13 @@ Renderer::Renderer()
     0.0f);
 
     initGrid();
-    bindGrid();
 
-    gridShaderProgram = std::make_unique<ShaderProgram>("shaders/grid.vert", "shaders/grid.frag");
+    pGridShaderProgram = std::make_unique<ShaderProgram>("shaders/grid.vert", "shaders/grid.frag");
+    pGridMesh = std::make_unique<Mesh>(vertices);
 }
 
 Renderer::~Renderer()
 {
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
 }
 
 void Renderer::Draw()
@@ -28,48 +27,10 @@ void Renderer::Draw()
     drawGrid();
 }
 
-void Renderer::bindGrid()
-{
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-
-    glBindVertexArray(VAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-    glBufferData(
-        GL_ARRAY_BUFFER,
-        vertices.size() * sizeof(float),
-        vertices.data(),
-        GL_STATIC_DRAW);
-
-    glVertexAttribPointer(
-        0,
-        2,
-        GL_FLOAT,
-        GL_FALSE,
-        2 * sizeof(float),
-        (void *)0);
-
-    glEnableVertexAttribArray(0);
-}
-
 void Renderer::drawGrid()
 {
-    gridShaderProgram->Use();
-
-    glUniformMatrix4fv(
-        glGetUniformLocation(gridShaderProgram->GetId(), "uProj"),
-        1,
-        GL_FALSE,
-        glm::value_ptr(proj));
-
-    glBindVertexArray(VAO);
-
-    glDrawArrays(
-        GL_LINES,
-        0,
-        vertices.size() / 2);
+    pGridShaderProgram->Use();
+    pGridMesh->Draw(glGetUniformLocation(pGridShaderProgram->GetId(), "uProj"), glm::value_ptr(proj));
 }
 
 void Renderer::initGrid()

@@ -1,24 +1,23 @@
 #ifndef RENDER_H
 #define RENDER_H
 
-#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <memory>
 #include <vector>
 
 #include "ShaderProgram.h"
+#include "Mesh.h"
 
 class Renderer
 {
 public:
     Renderer();
-    ~Renderer();
+    virtual ~Renderer();
     
     void Draw();
 
 private:
-    void bindGrid();
     void drawGrid();
     void initGrid();
 
@@ -34,10 +33,8 @@ private:
 
     glm::mat4 proj;
 
-    std::unique_ptr<ShaderProgram> gridShaderProgram;
-
-    GLuint VAO;
-    GLuint VBO;
+    std::unique_ptr<ShaderProgram> pGridShaderProgram;
+    std::unique_ptr<Mesh> pGridMesh;
 };
 
 #endif //RENDER_H

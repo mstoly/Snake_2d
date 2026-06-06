@@ -7,6 +7,7 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
 add_executable (Snake_2d "src/main.cpp"
+						 "src/Mesh.cpp"
                          "src/Model.cpp"
                          "src/Renderer.cpp"
 						 "src/ShaderProgram.cpp")
