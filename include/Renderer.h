@@ -20,11 +20,9 @@ public:
 
 private:
     void drawGrid();
-    void initGrid();
+    std::vector<float> initGrid();
 
 private:
-    std::vector<float> vertices;
-
     const int cells = 20;
     const float cellSize = 32.0f;
 

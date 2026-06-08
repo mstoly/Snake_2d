@@ -2,7 +2,7 @@
 
 Mesh::Mesh(const std::vector<float>& vertices)
 {
-    _vertices = vertices;
+    verticesSize = vertices.size();
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
 
@@ -12,8 +12,8 @@ Mesh::Mesh(const std::vector<float>& vertices)
 
     glBufferData(
         GL_ARRAY_BUFFER,
-        _vertices.size() * sizeof(float),
-        _vertices.data(),
+        verticesSize * sizeof(float),
+        vertices.data(),
         GL_STATIC_DRAW);
 
     glVertexAttribPointer(
@@ -40,5 +40,5 @@ void Mesh::Draw()
     glDrawArrays(
         GL_LINES,
         0,
-        _vertices.size() / 2);
+        verticesSize / 2);
 }

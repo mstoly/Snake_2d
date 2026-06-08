@@ -15,7 +15,7 @@ public:
 private:
     GLuint VAO{};
     GLuint VBO{};
-    std::vector<float> _vertices;
+    int verticesSize{};
 };
 
 #endif //MESH_H

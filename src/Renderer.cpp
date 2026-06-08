@@ -1,4 +1,3 @@
-#include <iostream>
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -14,9 +13,9 @@ Renderer::Renderer()
 
     model = glm::mat4(1.0f);
 
-    initGrid();
-
     pGridShaderProgram = std::make_unique<ShaderProgram>("shaders/grid.vert", "shaders/grid.frag");
+
+    std::vector<float> vertices = initGrid();
     pGridMesh = std::make_unique<Mesh>(vertices);
 }
 
@@ -34,16 +33,16 @@ void Renderer::OnResize(int newWidth, int newHeight)
     glViewport(0, 0, newWidth, newHeight);
 
     float minsize = std::min(newWidth, newHeight);
-    float scale = minsize / boardSize;
 
-    float offsetX = (newWidth - minsize) * 0.5f / scale;
-    float offsetY = (newHeight - minsize) * 0.5f / scale;
     float scaleX = minsize / newWidth;
     float scaleY = minsize / newHeight;
+ 
+    float offsetX = (1 - scaleX) * boardSize * 0.5f;
+    float offsetY = (1 - scaleY) * boardSize * 0.5f;
 
     model = glm::mat4(1.0f);
-    model = glm::scale(model, glm::vec3(scaleX, scaleY, 1.0f));
     model = glm::translate(model, glm::vec3(offsetX, offsetY, 0.0f));
+    model = glm::scale(model, glm::vec3(scaleX, scaleY, 1.0f));
 }
 
 void Renderer::drawGrid()
@@ -55,8 +54,10 @@ void Renderer::drawGrid()
     pGridMesh->Draw();
 }
 
-void Renderer::initGrid()
+std::vector<float> Renderer::initGrid()
 {
+    std::vector<float> vertices;
+
     for (int x = 0; x <= cells; ++x)
     {
         float px = x * cellSize;
@@ -78,4 +79,6 @@ void Renderer::initGrid()
         vertices.push_back(boardSize);
         vertices.push_back(py);
     }
+
+    return vertices;
 }
