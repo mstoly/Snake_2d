@@ -17,6 +17,9 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 
 int main(void)
 {
+    const double tickRate = 2.0;
+    const double tickTime = 1.0 / tickRate;
+
     GLFWwindow *window;
 
     /* Initialize the library */
@@ -41,6 +44,7 @@ int main(void)
     if (!gladLoadGL())
     {
         std::cout << "Can't load GLAD!" << std::endl;
+        glfwTerminate();
         return -1;
     }
 
@@ -52,10 +56,28 @@ int main(void)
 
     glClearColor(0.1, 0.3, 0, 1);
 
+    double previousTime = glfwGetTime();
+    double lag = 0.0;
+    double currentTime{};
+    double elapsed{};
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
-        pModel->Update();
+        currentTime = glfwGetTime();
+        elapsed = currentTime - previousTime;
+
+        previousTime = currentTime;
+        lag += elapsed;
+
+        /* Poll for and process events */
+        glfwPollEvents();
+
+        while (lag >= tickTime)
+        {
+            pModel->Update();
+            lag -= tickTime;
+        }
 
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
@@ -63,9 +85,6 @@ int main(void)
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
-
-        /* Poll for and process events */
-        glfwPollEvents();
     }
 
     glfwTerminate();
