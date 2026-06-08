@@ -2,6 +2,7 @@
 #define SHADER_H
 
 #include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
 
 class ShaderProgram
 {
@@ -9,6 +10,7 @@ public:
     ShaderProgram(const char *vertexFile, const char *fragmentFile);
 
     void Use();
+    void UniformMatrix(const std::string & uniformNeme, glm::mat4x4& m);
     GLuint GetId(); 
 
 private:
@@ -16,10 +18,11 @@ private:
     void build(GLuint &vertexShader, GLuint &fragmentShader);
 
 private:
-   const int static infoLogSize = 512;  
+    const int static infoLogSize = 512;
+    std::unordered_map<std::string, GLint> uniformMap;
 
     GLuint programId;
-
+    
     char infoLog[infoLogSize];
 };
 

@@ -30,6 +30,26 @@ GLuint ShaderProgram::GetId()
     return programId;
 }
 
+void ShaderProgram::UniformMatrix(const std::string & uniformNeme, glm::mat4x4& m)
+{
+    GLint location;
+    if(uniformMap.contains(uniformNeme))
+    {
+        location = uniformMap[uniformNeme];
+    }
+    else
+    {
+        location = glGetUniformLocation(programId, uniformNeme.c_str());
+        uniformMap[uniformNeme] = location;
+    }
+
+    glUniformMatrix4fv(
+        location,
+        1,
+        GL_FALSE,
+        glm::value_ptr(m));
+}
+
 void ShaderProgram::compileShader(GLuint &shader, const char *fileName)
 {
     fs::path path{fileName};

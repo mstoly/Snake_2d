@@ -10,7 +10,7 @@ public:
     Mesh(const std::vector<float>& vertices);
     virtual ~Mesh();
 
-    void Draw(GLint projection, const GLfloat *valueProjection, GLint model, const GLfloat *valueModel);
+    void Draw();
 
 private:
     GLuint VAO{};

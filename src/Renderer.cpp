@@ -12,7 +12,7 @@ Renderer::Renderer()
     boardSize,
     0.0f);
 
-    model = (1.0f);
+    model = glm::mat4(1.0f);
 
     initGrid();
 
@@ -41,7 +41,7 @@ void Renderer::OnResize(int newWidth, int newHeight)
     float scaleX = minsize / newWidth;
     float scaleY = minsize / newHeight;
 
-    model = (1.0f);
+    model = glm::mat4(1.0f);
     model = glm::scale(model, glm::vec3(scaleX, scaleY, 1.0f));
     model = glm::translate(model, glm::vec3(offsetX, offsetY, 0.0f));
 }
@@ -49,8 +49,10 @@ void Renderer::OnResize(int newWidth, int newHeight)
 void Renderer::drawGrid()
 {
     pGridShaderProgram->Use();
-    pGridMesh->Draw(glGetUniformLocation(pGridShaderProgram->GetId(), "uProj"), glm::value_ptr(proj),
-                    glGetUniformLocation(pGridShaderProgram->GetId(), "uModel"),  glm::value_ptr(model));
+    pGridShaderProgram->UniformMatrix("uProj", proj);
+    pGridShaderProgram->UniformMatrix("uModel", model);
+
+    pGridMesh->Draw();
 }
 
 void Renderer::initGrid()
