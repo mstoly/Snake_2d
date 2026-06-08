@@ -6,6 +6,15 @@
 #include "Model.h"
 #include "Renderer.h"
 
+void framebuffer_size_callback(GLFWwindow *window, int width, int height)
+{
+    auto *renderer = static_cast<Renderer *>(glfwGetWindowUserPointer(window));
+    if (renderer)
+    {
+        renderer->OnResize(width, height);
+    }
+}
+
 int main(void)
 {
     GLFWwindow *window;
@@ -19,7 +28,7 @@ int main(void)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", nullptr, nullptr);
+    window = glfwCreateWindow(640, 640, "Snake", nullptr, nullptr);
     if (!window)
     {
         glfwTerminate();
@@ -34,9 +43,12 @@ int main(void)
         std::cout << "Can't load GLAD!" << std::endl;
         return -1;
     }
-    
+
     auto pModel = std::make_unique<Model>();
     auto pRenderer = std::make_unique<Renderer>();
+
+    glfwSetWindowUserPointer(window, pRenderer.get());
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     glClearColor(0.1, 0.3, 0, 1);
 
@@ -44,7 +56,7 @@ int main(void)
     while (!glfwWindowShouldClose(window))
     {
         pModel->Update();
-        
+
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
         pRenderer->Draw();

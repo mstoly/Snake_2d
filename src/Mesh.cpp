@@ -33,13 +33,19 @@ Mesh::~Mesh()
     glDeleteBuffers(1, &VBO);
 }
 
-void Mesh::Draw(GLint location, const GLfloat *value)
+void Mesh::Draw(GLint projection, const GLfloat *valueProjection, GLint model, const GLfloat *valueModel)
 {
-        glUniformMatrix4fv(
-        location,
+    glUniformMatrix4fv(
+        projection,
         1,
         GL_FALSE,
-        value);
+        valueProjection);
+
+    glUniformMatrix4fv(
+        model,
+        1,
+        GL_FALSE,
+        valueModel);
 
     glBindVertexArray(VAO);
 

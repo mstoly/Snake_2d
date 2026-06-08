@@ -16,6 +16,7 @@ public:
     virtual ~Renderer();
     
     void Draw();
+    void OnResize(int newWidth, int newHeight);
 
 private:
     void drawGrid();
@@ -24,14 +25,12 @@ private:
 private:
     std::vector<float> vertices;
 
-    const int cols = 20;
-    const int rows = 20;
-    const float cell = 32.0f;
+    const int cells = 20;
+    const float cellSize = 32.0f;
 
-    const float width  = cols * cell;
-    const float height = rows * cell;
+    const float boardSize  = cells * cellSize;
 
-    glm::mat4 proj;
+    glm::mat4 proj, model;
 
     std::unique_ptr<ShaderProgram> pGridShaderProgram;
     std::unique_ptr<Mesh> pGridMesh;
