@@ -10,8 +10,11 @@ public:
     ShaderProgram(const char *vertexFile, const char *fragmentFile);
     virtual ~ShaderProgram();
 
+    ShaderProgram(const ShaderProgram&) = delete;
+    ShaderProgram& operator=(const ShaderProgram&) = delete;
+
     void Use();
-    void UniformMatrix(const std::string & uniformNeme, glm::mat4x4& m);
+    void UniformMatrix(const std::string & uniformName, glm::mat4x4& m);
     GLuint GetId(); 
 
 private:
