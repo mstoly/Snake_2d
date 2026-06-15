@@ -10,6 +10,9 @@ public:
     Mesh(const std::vector<float>& vertices);
     virtual ~Mesh();
 
+    Mesh(const Mesh&) = delete;
+    Mesh& operator=(const Mesh&) = delete;
+
     void Draw();
 
 private:

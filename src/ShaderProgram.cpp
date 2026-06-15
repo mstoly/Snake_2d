@@ -20,6 +20,11 @@ ShaderProgram::ShaderProgram(const char *vertexFile, const char *fragmentFile)
     glDeleteShader(fragmentShader);
 }
 
+ShaderProgram::~ShaderProgram()
+{
+    glDeleteProgram(programId);
+}
+
 void ShaderProgram::Use()
 {
     glUseProgram(programId);
@@ -61,7 +66,7 @@ void ShaderProgram::compileShader(GLuint &shader, const char *fileName)
         std::ifstream file(path, std::ios::binary);
         if (file.read(buffer.data(), size))
         {
-            int success;
+            GLint success;
             const char* src = buffer.c_str();
             glShaderSource(shader, 1, &src, nullptr);
             glCompileShader(shader);
@@ -86,7 +91,7 @@ void ShaderProgram::compileShader(GLuint &shader, const char *fileName)
 
 void ShaderProgram::build(GLuint &vertexShader, GLuint &fragmentShader)
 {
-    int success;
+    GLint success;
     
     programId = glCreateProgram();
     glAttachShader(programId, vertexShader);

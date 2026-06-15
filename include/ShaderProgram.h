@@ -8,6 +8,7 @@ class ShaderProgram
 {
 public:
     ShaderProgram(const char *vertexFile, const char *fragmentFile);
+    virtual ~ShaderProgram();
 
     void Use();
     void UniformMatrix(const std::string & uniformNeme, glm::mat4x4& m);
